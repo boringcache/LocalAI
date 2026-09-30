@@ -44,6 +44,8 @@ The pinned BoringCache Action selects its own released default CLI.
 Retain raw job logs, source and workflow SHAs, runner and builder versions,
 native ccache reports, package checksums, full build-step durations, product
 cache evidence, and transfer/publication measurements where available.
+The CLI's emitted telemetry is retained with the build artifacts for aggregate
+review; the workflow does not parse it or assert product policy from it.
 Do not interpret an unavailable byte measurement as zero. Keep runner queue
 time separate from build/job time. CPU results do not establish CUDA or ROCm
 timings, full PR feedback latency, or willingness to adopt or pay.

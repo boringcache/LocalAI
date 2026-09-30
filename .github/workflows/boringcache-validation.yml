@@ -66,6 +66,7 @@ jobs:
           [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]]
           printf 'sha=%s\n' "$source_sha" >> "$GITHUB_OUTPUT"
           mkdir -p "$RUNNER_TEMP/validation"
+          printf 'BORINGCACHE_OBSERVABILITY_JSONL_PATH=%s/validation/boringcache-telemetry.jsonl\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
           printf '%s\n' "$source_sha" > "$RUNNER_TEMP/validation/upstream-sha.txt"
           printf '%s\n' "$GITHUB_SHA" > "$RUNNER_TEMP/validation/workflow-sha.txt"
           printf '%s\n' "$PHASE" > "$RUNNER_TEMP/validation/phase.txt"
