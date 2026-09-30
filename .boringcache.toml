@@ -1,0 +1,28 @@
+workspace = "boringcache/localai-validation"
+
+[adapters.docker]
+tag = "localai-llama-cpp-cpu-amd64-20260930"
+no-git = true
+mount-cache = true
+metadata-hints = ["tool=oci", "workflow=prospect-validation", "backend=llama-cpp-cpu"]
+command = [
+  "docker", "buildx", "build",
+  "--file", "../upstream/backend/Dockerfile.llama-cpp",
+  "--platform", "linux/amd64",
+  "--progress", "plain",
+  "--provenance", "false",
+  "--build-arg", "BUILD_TYPE=",
+  "--build-arg", "CUDA_MAJOR_VERSION=",
+  "--build-arg", "CUDA_MINOR_VERSION=",
+  "--build-arg", "BASE_IMAGE=ubuntu:24.04",
+  "--build-arg", "BACKEND=llama-cpp",
+  "--build-arg", "UBUNTU_VERSION=2404",
+  "--build-arg", "SKIP_DRIVERS=false",
+  "--build-arg", "AMDGPU_TARGETS=",
+  "--build-arg", "APT_MIRROR=http://azure.archive.ubuntu.com",
+  "--build-arg", "APT_PORTS_MIRROR=http://azure.ports.ubuntu.com",
+  "--build-arg", "BUILDER_BASE_IMAGE=quay.io/go-skynet/ci-cache@sha256:3936a0158f2a2cdf33f56099d6bbb6375eb4384a691226ba91403128c4fdab88",
+  "--build-arg", "BUILDER_TARGET=builder-prebuilt",
+  "--output", "type=local,dest=../package",
+  "../upstream",
+]
