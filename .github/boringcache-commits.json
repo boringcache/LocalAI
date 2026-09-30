@@ -1,0 +1,7 @@
+[
+  {"phase": "cold", "sha": "73cb1c3fdf4795689f55e4b84e4e7bcfe4cf436f", "change": "Base, four first-parent commits before captured head"},
+  {"phase": "rolling", "sha": "01db8f33c15cbf312eb39c964ea9b665573ebb23", "change": "CrispASR version update"},
+  {"phase": "rolling", "sha": "7cadb5748a3312d31561f5cb9cb6d50c8e761371", "change": "CED version update"},
+  {"phase": "rolling", "sha": "b93d111d9b7ac01c5ecde1020e2884baba788f0d", "change": "NeMo version update"},
+  {"phase": "rolling", "sha": "2fa36e714789dc519ce64089f47c88ebffc18a51", "change": "Parakeet features and shared protobuf changes"}
+]

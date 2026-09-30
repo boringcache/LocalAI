@@ -20,18 +20,21 @@ The source checkout contains no validation files. The initial sequence is:
 
 | Phase | Upstream source | Purpose |
 | --- | --- | --- |
-| Cold | `7cadb5748a3312d31561f5cb9cb6d50c8e761371` | Seed both previously unused cache tags |
-| Warm | Same parent | Measure unchanged-source layer reuse on fresh builders |
-| Rolling forward | `b93d111d9b7ac01c5ecde1020e2884baba788f0d` | Rebuild after an unrelated backend Makefile changes |
-| Rolling back | Parent | Test reuse when returning to the previous source |
-| Rolling forward again | NeMo commit | Test reuse after another source transition |
+| Cold | `73cb1c3fdf4795689f55e4b84e4e7bcfe4cf436f` | Seed both previously unused cache tags, four first-parent commits before the captured head |
+| Warm | Same base | Measure unchanged-source layer reuse on fresh builders |
+| Rolling 1 | `01db8f33c15cbf312eb39c964ea9b665573ebb23` | CrispASR backend version update |
+| Rolling 2 | `7cadb5748a3312d31561f5cb9cb6d50c8e761371` | CED backend version update |
+| Rolling 3 | `b93d111d9b7ac01c5ecde1020e2884baba788f0d` | NeMo backend version update |
+| Rolling 4 | `2fa36e714789dc519ce64089f47c88ebffc18a51` | Parakeet feature with shared protobuf changes |
 
-The forward commit changes only `backend/go/nemo-speech-cpp/Makefile`.
-`COPY . /LocalAI` observes that change; llama.cpp, its pinned dependency,
-compiler settings, Dockerfile, and compile script are identical. The workflow
-does not force cache invalidation or synthesize a source change. A layer hit
-can replay old ccache output without compiling: assess native compiler hits
-only when the compile RUN executes, and keep layer reuse separate.
+Each rolling phase advances exactly one first-parent upstream commit. The first
+three change only an unrelated backend's Makefile. `COPY . /LocalAI` observes
+each change; llama.cpp, its pinned dependency, compiler settings, Dockerfile,
+and compile script are identical. The fourth also changes `backend/backend.proto`,
+which is a real input to the llama.cpp gRPC build. The workflow does not force
+cache invalidation or synthesize a source change. A layer hit can replay old
+ccache output without compiling: assess native compiler hits only when the
+compile RUN executes, and keep layer reuse separate.
 
 `connect` enrolls the fork's GitHub Actions identity for the dedicated
 `boringcache/localai-validation` workspace. Builds use OIDC rather than static
