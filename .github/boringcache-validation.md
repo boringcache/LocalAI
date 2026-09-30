@@ -1,5 +1,7 @@
 # LocalAI llama.cpp compiler-cache validation
 
+Completed measurements are in [boringcache-results.md](boringcache-results.md).
+
 This fork compares registry-backed BuildKit layers with BoringCache's managed
 layer cache plus persistence of the existing `/root/.ccache` mount. It uses
 LocalAI's CPU amd64 matrix entry, unchanged `backend/Dockerfile.llama-cpp`,
